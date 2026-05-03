@@ -56,19 +56,32 @@ document.addEventListener("keydown", (event) => {
     let size;
     let speed;
     let color;
+    let x;
 
-    if (event.key >= "a" && event.key <= "z"){
+    if (event.key >= "a" && event.key <= "m"){
+        x = Math.random() * canvas.width/2;
         size = 10;
         speed = 3;
         color = "cyan";
-    } else if (event.key >= "A" && event.key <= "Z"){
-        size = 35;
-        speed = 8;
+    } else if (event.key >= "n" && event.key <= "z"){
+        x = Math.random() * (canvas.width - canvas.width/2)  + canvas.width/2;
+        size = 10;
+        speed = 3;
+        color = "cyan";
+    } else if (event.key >= "A" && event.key <= "M"){
+        x = Math.random() * canvas.width/2;
+        size = 40;
+        speed = 20;
+        color = "darkblue";
+    } else if (event.key >= "N" && event.key <= "Z"){
+        x = Math.random() * (canvas.width - canvas.width/2) + canvas.width/2;
+        size = 40;
+        speed = 20;
         color = "darkblue";
     }
 
     droplets.push({
-        x: Math.random() * canvas.width,
+        x: x,
         y: 0,
         size: size,
         speed: speed,
