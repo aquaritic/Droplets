@@ -12,10 +12,11 @@ canvas {
     display: block;
 }
 
-mode {
+#mode {
     display:flex;
     justify-content: center;
     align-items: center;
+    z-index: 10;
     height:100vh;
     font-family: Times;
     color: white;
