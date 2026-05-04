@@ -6,7 +6,22 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const surface = canvas.height * 0.75;
 const mode = document.getElementById("mode");
+const time = document.getElementById("time");
 let isSnow = false;
+let isDay = true;
+
+time.addEventListener("click", () => {
+    isDay = !isDay;
+    if (isDay){
+        document.body.style.background = "linear-gradient(#87CEEB, #FFD27F)";
+        time.classList.remove("night");
+        time.classList.add("day");
+    } else {
+        document.body.style.background = "linear-gradient(#000015, #001133)";
+        time.classList.remove("day");
+        time.classList.add("night");
+    }
+});
 
 mode.addEventListener("click", () =>{
     isSnow = !isSnow
@@ -17,13 +32,19 @@ function ripple(x, y, color){
         x,
         y,
         radius: Math.random() * 7 + 3,
-        opacity: Math.random() * .5 + 1,
+        opacity: Math.random() * .5 + .5,
         color
     });
 }
 
 function animation() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(0, surface);
+    ctx.lineTo(canvas.width, surface);
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
     for (let i = 0; i < droplets.length; i++) {
         let d = droplets[i];
@@ -192,10 +213,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 canvas.addEventListener("click", (event) => {
+    let color;
     if (isSnow){
             color = "white";
         } else {
-            color = "turqoise";
+            color = "turquoise";
         }
     droplets.push({
         x: event.clientX,
