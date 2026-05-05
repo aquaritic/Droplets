@@ -9,6 +9,11 @@ const mode = document.getElementById("mode");
 const time = document.getElementById("time");
 let isSnow = false;
 let isDay = true;
+let gravityDown = true;
+
+document.getElementById("gravity").addEventListener("click", () => {
+    gravityDown = !gravityDown;
+});
 
 time.addEventListener("click", () => {
     isDay = !isDay;
@@ -39,22 +44,16 @@ function ripple(x, y, color){
 
 function animation() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
-    ctx.moveTo(0, surface);
-    ctx.lineTo(canvas.width, surface);
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = 2;
-    ctx.stroke();
 
     for (let i = 0; i < droplets.length; i++) {
         let d = droplets[i];
-        d.y += d.speed;
+        d.y += gravityDown ? d.speed : -d.speed;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.size, 0, Math.PI *2);
         ctx.fillStyle = d.color;
         ctx.fill();
 
-        if (d.y >= surface) {
+        if ((gravityDown && d.y >= surface) || (!gravityDown && d.y <= surface)) {
             ripple(d.x, surface, d.color);
             droplets.splice(i, 1);
             i--;
@@ -205,26 +204,20 @@ document.addEventListener("keydown", (event) => {
     }
     droplets.push({
         x: x,
-        y: 0,
+        y: gravityDown ? 0 : canvas.height,
         size: size,
         speed: speed,
         color: color
     });
 });
 
-canvas.addEventListener("click", (event) => {
-    let color;
-    if (isSnow){
-            color = "white";
-        } else {
-            color = "turquoise";
-        }
-    droplets.push({
+canvas.addEventListener("wheel", (event) => {
+    ripples.push({
         x: event.clientX,
         y: event.clientY,
-        size: 25,
-        speed: 15,
-        color
+        radius: Math.random() * 7 + 3,
+        opacity: Math.random() * .5 + .5,
+        color: "seagreen"
     });
 });
 
