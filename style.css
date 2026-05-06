@@ -29,6 +29,7 @@ canvas {
     border: 2px salmon;
     border-radius: 10px;
     transition: .1s;
+    transform: translateX(-50%);
 }
 
 #mode {

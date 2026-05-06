@@ -4,15 +4,16 @@ const droplets = [];
 const ripples = [];
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const surface = canvas.height * 0.75;
+let surface = canvas.height * 0.75;
 const mode = document.getElementById("mode");
 const time = document.getElementById("time");
 let isSnow = false;
-let isDay = true;
+let isDay = false;
 let gravityDown = true;
 
 document.getElementById("gravity").addEventListener("click", () => {
     gravityDown = !gravityDown;
+    surface = gravityDown ? canvas.height *.75 : canvas.height * .25;
 });
 
 time.addEventListener("click", () => {
@@ -32,12 +33,14 @@ mode.addEventListener("click", () =>{
     isSnow = !isSnow
 });
 
-function ripple(x, y, color){
+function ripple(x, y, color, size){
     ripples.push({
         x,
         y,
-        radius: Math.random() * 7 + 3,
-        opacity: Math.random() * .5 + .5,
+        radius: size * 0.5,
+        growth: size * .15,
+        decay: size * .002,
+        opacity: Math.random() * .5 +.5,
         color
     });
 }
@@ -48,21 +51,22 @@ function animation() {
     for (let i = 0; i < droplets.length; i++) {
         let d = droplets[i];
         d.y += gravityDown ? d.speed : -d.speed;
+        d.size *= .99;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.size, 0, Math.PI *2);
         ctx.fillStyle = d.color;
         ctx.fill();
 
         if ((gravityDown && d.y >= surface) || (!gravityDown && d.y <= surface)) {
-            ripple(d.x, surface, d.color);
+            ripple(d.x, surface, d.color, d.size);
             droplets.splice(i, 1);
             i--;
         }
     }
     for (let i = 0; i < ripples.length; i++){
             let r = ripples[i];
-            r.radius += 2;
-            r.opacity -= .01;
+            r.radius += r.growth;
+            r.opacity -= r.fade;
 
             ctx.beginPath();
             ctx.arc(r.x, r.y, r.radius, 0, Math.PI*2);
