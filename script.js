@@ -10,6 +10,12 @@ const time = document.getElementById("time");
 let isSnow = false;
 let isDay = false;
 let gravityDown = true;
+let rainbowMode = false;
+let rainbowHue = 0;
+
+document.getElementById("rainbow").addEventListener("click", () => {
+    rainbowMode = !rainbowMode;
+});
 
 document.getElementById("gravity").addEventListener("click", () => {
     gravityDown = !gravityDown;
@@ -41,17 +47,16 @@ function ripple(x, y, color, size){
         growth: size * .15,
         decay: size * .002,
         opacity: Math.random() * .5 +.5,
-        color
+        color: rainbowMode ? 'hsl(${rainbowHue}, 100%, 70%)' : color
     });
 }
 
 function animation() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     for (let i = 0; i < droplets.length; i++) {
         let d = droplets[i];
         d.y += gravityDown ? d.speed : -d.speed;
-        d.size *= .99;
+        d.size *= .985;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.size, 0, Math.PI *2);
         ctx.fillStyle = d.color;
@@ -66,7 +71,7 @@ function animation() {
     for (let i = 0; i < ripples.length; i++){
             let r = ripples[i];
             r.radius += r.growth;
-            r.opacity -= r.fade;
+            r.opacity -= r.decay;
 
             ctx.beginPath();
             ctx.arc(r.x, r.y, r.radius, 0, Math.PI*2);
@@ -79,6 +84,9 @@ function animation() {
                 i--;
             }
         }
+    if (rainbowMode) {
+        rainbowHue = (rainbowHue + 2) % 360;
+    }
     requestAnimationFrame(animation);
 }
 
@@ -93,27 +101,27 @@ document.addEventListener("keydown", (event) => {
         size = 10;
         speed = 3;
         if (isSnow){
-            color = "white"
+            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 90%)' : "white";
         } else {
-            color = "cyan"
+            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 60%)' : "cyan";
         }
     } else if (event.key >= "n" && event.key <= "z"){
         x = Math.random() * (canvas.width - canvas.width/2)  + canvas.width/2;
         size = 10;
         speed = 3;
         if (isSnow){
-            color = "white"
+            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 90%)' : "white";
         } else {
-            color = "cyan"
+            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 60%)' : "cyan";
         }
     } else if (event.key >= "A" && event.key <= "M"){
         x = Math.random() * canvas.width/2;
         size = 40;
         speed = 20;
         if (isSnow){
-            color = "white"
+            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 90%)' : "white";
         } else {
-            color = "darkblue"
+            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 40%)' : "darkblue";
         }
     } else if (event.key >= "N" && event.key <= "Z"){
         x = Math.random() * (canvas.width - canvas.width/2) + canvas.width/2;
@@ -219,9 +227,11 @@ canvas.addEventListener("wheel", (event) => {
     ripples.push({
         x: event.clientX,
         y: event.clientY,
+        growth: 1.5,
+        decay: .03,
         radius: Math.random() * 7 + 3,
         opacity: Math.random() * .5 + .5,
-        color: "seagreen"
+        color: rainbowMode ? 'hsl(${rainbowHue}, 100%, 70%)' : "seagreen"
     });
 });
 
