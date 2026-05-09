@@ -54,7 +54,6 @@ function ripple(x, y, color, size){
 function animation() {
     ctx.fillStyle = isDay ? "#87CEEB" : "#000015";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < droplets.length; i++) {
         let d = droplets[i];
         d.y += gravityDown ? d.speed : -d.speed;
