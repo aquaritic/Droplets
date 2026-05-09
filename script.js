@@ -45,9 +45,9 @@ function ripple(x, y, color, size){
         y,
         radius: size * 0.5,
         growth: size * .15,
-        decay: size * .002,
+        decay: size * .003,
         opacity: Math.random() * .5 +.5,
-        color: rainbowMode ? 'hsl(${rainbowHue}, 100%, 70%)' : color
+        color: rainbowMode ? `hsl(${rainbowHue}, 100%, 70%)` : color
     });
 }
 
@@ -101,36 +101,36 @@ document.addEventListener("keydown", (event) => {
         size = 10;
         speed = 3;
         if (isSnow){
-            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 90%)' : "white";
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 90%)` : "white";
         } else {
-            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 60%)' : "cyan";
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 60%)` : "cyan";
         }
     } else if (event.key >= "n" && event.key <= "z"){
         x = Math.random() * (canvas.width - canvas.width/2)  + canvas.width/2;
         size = 10;
         speed = 3;
         if (isSnow){
-            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 90%)' : "white";
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 90%)` : "white";
         } else {
-            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 60%)' : "cyan";
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 60%)` : "cyan";
         }
     } else if (event.key >= "A" && event.key <= "M"){
         x = Math.random() * canvas.width/2;
         size = 40;
         speed = 20;
         if (isSnow){
-            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 90%)' : "white";
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 90%)` : "white";
         } else {
-            color = rainbowMode ? 'hsl(${rainbowHue}, 100%, 40%)' : "darkblue";
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 40%)` : "darkblue";
         }
     } else if (event.key >= "N" && event.key <= "Z"){
         x = Math.random() * (canvas.width - canvas.width/2) + canvas.width/2;
         size = 40;
         speed = 20;
         if (isSnow){
-            color = "white"
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 90%)` : "white";
         } else {
-            color = "darkblue"
+            color = rainbowMode ? `hsl(${rainbowHue}, 100%, 40%)` : "darkblue";
         }
     } else if (event.key == "1"){
         x = Math.random() * canvas.width;
@@ -231,7 +231,7 @@ canvas.addEventListener("wheel", (event) => {
         decay: .03,
         radius: Math.random() * 7 + 3,
         opacity: Math.random() * .5 + .5,
-        color: rainbowMode ? 'hsl(${rainbowHue}, 100%, 70%)' : "seagreen"
+        color: rainbowMode ? `hsl(${rainbowHue}, 100%, 70%)` : "seagreen"
     });
 });
 
