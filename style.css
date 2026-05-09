@@ -48,6 +48,6 @@ canvas {
     top: 35%;
 }
 
-#mode:hover, #time:hover, #gravity:hover{
+#mode:hover, #time:hover, #gravity:hover, #rainbow:hover{
     transform: scale(1.1) translateX(-50%);
 }
